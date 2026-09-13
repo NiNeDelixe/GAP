@@ -200,7 +200,7 @@ jobs:
 
       - name: Publish to codecov
         if: ${{ secrets.CODECOV_TOKEN != '' }}
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v7
         with:
           fail_ci_if_error: true
           flags: ${{ runner.os }}
