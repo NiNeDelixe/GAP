@@ -46,7 +46,7 @@ target_link_libraries(
   tests
   PRIVATE GAP::GAP_warnings
           GAP::GAP_options
-          GAP::sample_library
+          GAP::GAP
           Catch2::Catch2WithMain)
 
 GAP_configure_linker(tests)
@@ -80,7 +80,7 @@ target_link_libraries(
   constexpr_tests
   PRIVATE GAP::GAP_warnings
           GAP::GAP_options
-          GAP::sample_library
+          GAP::GAP  
           Catch2::Catch2WithMain)
 
 GAP_configure_linker(constexpr_tests)
@@ -105,7 +105,7 @@ target_link_libraries(
   relaxed_constexpr_tests
   PRIVATE GAP::GAP_warnings
           GAP::GAP_options
-          GAP::sample_library
+          GAP::GAP
           Catch2::Catch2WithMain)
 target_compile_definitions(relaxed_constexpr_tests PRIVATE -DCATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
 

@@ -1,0 +1,7 @@
+{
+  "version": "0.1",
+  "dependencies": [
+    "wil",
+    "boost-mp11"
+  ]
+}

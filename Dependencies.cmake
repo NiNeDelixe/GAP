@@ -5,6 +5,8 @@ include(cmake/CPM.cmake)
 # targets
 function(GAP_setup_dependencies)
 
+  set(CPM_SOURCE_CACHE "${CMAKE_BINARY_DIR}/.cache/CPM")
+
   # For each dependency, see if it's
   # already been provided to us by a parent project
 
@@ -78,6 +80,65 @@ function(GAP_setup_dependencies)
       "lefticus/tools"
       GIT_TAG
       "main")
+  endif()
+  
+  # if(NOT TARGET babylon)
+  #   cpmaddpackage(
+  #     NAME
+  #     babylon
+  #     GIT_TAG
+  #     "main"
+  #     GITHUB_REPOSITORY
+  #     "Mobile-Artificial-Intelligence/babylon"
+  #     SYSTEM
+  #     YES)
+  # endif()
+
+  if(NOT TARGET piper)
+    #set(ONNX_DISABLE_STATIC_REGISTRATION ON)
+    set(CMAKE_COMPILE_WARNING_AS_ERROR OFF)
+
+    CPMAddPackage(
+      NAME onnxruntime
+      GIT_TAG v1.22.2
+      GITHUB_REPOSITORY microsoft/onnxruntime
+      SYSTEM YES
+      SOURCE_SUBDIR cmake
+      OPTIONS
+      "onnxruntime_BUILD_UNIT_TESTS OFF"
+      "onnxruntime_ENABLE_PYTHON OFF"
+      "onnxruntime_USE_VCPKG ON"
+      "onnxruntime_DISABLE_ABSEIL ON"
+      "onnxruntime_USE_PREINSTALLED_EIGEN ON"
+      "onnxruntime_PREFER_SYSTEM_LIB OFF"
+    )
+    
+    foreach(target
+    onnxruntime
+    onnxruntime_framework
+    onnxruntime_common
+)
+    if(TARGET ${target})
+        target_compile_options(${target} PRIVATE /WX-)
+    endif() 
+    endforeach()
+
+    if(TARGET onnxruntime_framework)
+    target_compile_options(onnxruntime_framework PRIVATE /wd4875)
+endif()
+
+    cpmaddpackage(
+      NAME piper
+      GIT_TAG "main"
+      GITHUB_REPOSITORY OHF-Voice/piper1-gpl
+      SYSTEM YES
+      SOURCE_SUBDIR libpiper 
+      PATCHES "${CMAKE_CURRENT_SOURCE_DIR}\\patches\\piper-cmake-source-dir.patch"
+      OPTIONS
+      "PIPER_BUILD_SEPARATE_LIBS ON" 
+      #"ONNX_DISABLE_STATIC_REGISTRATION=ON"
+      )
+
   endif()
 
 endfunction()

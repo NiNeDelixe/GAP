@@ -9,7 +9,7 @@ cmake_policy(SET CMP0155 OLD)
 
 # Only set the cxx_standard if it is not set by someone else
 if (NOT DEFINED CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 23)
+  set(CMAKE_CXX_STANDARD 20)
 endif()
 
 # strongly encouraged to enable this globally to avoid conflicts between
@@ -117,14 +117,14 @@ include(cmake/PackageProject.cmake)
 
 # Add other targets that you want installed here, by default we just package the one executable
 # we know we want to ship
-GAP_package_project(
-  TARGETS
-  intro
-  GAP_options
-  GAP_warnings
-  # FIXME: this does not work! CK
-  # PRIVATE_DEPENDENCIES_CONFIGURED project_options project_warnings
-)
+# GAP_package_project(
+#   TARGETS
+#   intro
+#   GAP_options
+#   GAP_warnings
+#   # FIXME: this does not work! CK
+#   # PRIVATE_DEPENDENCIES_CONFIGURED project_options project_warnings
+# )
 
 # Experience shows that explicit package naming can help make it easier to sort
 # out potential ABI related issues before they start, while helping you

@@ -1,0 +1,6 @@
+#ifndef SIGNATURES_WORD_HPP_
+#define SIGNATURES_WORD_HPP_
+
+
+
+#endif // SIGNATURES_WORD_HPP_

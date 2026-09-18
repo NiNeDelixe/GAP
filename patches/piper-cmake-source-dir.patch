@@ -1,0 +1,10 @@
+diff --git a/libpiper/CMakeLists.txt b/libpiper/CMakeLists.txt
+--- a/libpiper/CMakeLists.txt
++++ b/libpiper/CMakeLists.txt
+@@ -162,4 +162,4 @@ add_subdirectory(src/main)
+
+ # ---- version
+-file(READ ${CMAKE_SOURCE_DIR}/../setup.py SETUP_PY_CONTENTS)
++file(READ ${CMAKE_CURRENT_LIST_DIR}/../setup.py SETUP_PY_CONTENTS)
+ string(REGEX MATCH "version=\"([0-9]+\\.[0-9]+\\.[0-9]+)\"" _ ${SETUP_PY_CONTENTS})
+ set(PIPER_VERSION ${CMAKE_MATCH_1})
