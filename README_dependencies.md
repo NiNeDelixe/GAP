@@ -103,7 +103,7 @@ The following compilers should work:
 	</details>
 
 
-2. [CMake 3.21+](https://cmake.org/)
+2. [CMake 3.29+](https://cmake.org/)
 	<details>
 	<summary>Install Command</summary>
 
@@ -122,6 +122,21 @@ The following compilers should work:
 	</details>
 
 ### Optional Dependencies
+#### Piper text-to-speech
+
+GAP provides Piper as the `GAP::Piper` CMake target. It is fetched at the
+immutable v1.8.0 revision and brings the matching ONNX Runtime 1.22 runtime.
+Do not add a second ONNX Runtime target for the same executable.
+
+For an executable, call `GAP_stage_piper_runtime(<target>)` after linking
+`GAP::Piper`. This copies Piper, its ONNX Runtime libraries, and
+`espeak-ng-data` to the executable directory. The default data location is
+`resources/voice/models/espeak-ng-data`.
+
+Piper is licensed under GPL-3.0. Review its
+[license](https://github.com/OHF-Voice/piper1-gpl/blob/v1.8.0/LICENSE.md)
+before distributing a target that links it.
+
 #### C++ Tools
   * [Doxygen](http://doxygen.nl/)
 	<details>

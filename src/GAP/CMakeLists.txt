@@ -22,14 +22,7 @@ add_library(GAP::GAP ALIAS GAP)
 #     )
 # endif()
 
-target_link_libraries(GAP PRIVATE 
-  GAP_options 
-  GAP_warnings
-  piper
-  #onnxruntime::onnxruntime
-  onnxruntime
-  FlatBuffers
-)
+target_link_libraries(GAP PRIVATE GAP_options GAP_warnings)
 
 # add_custom_command(TARGET GAP POST_BUILD
 #     COMMAND ${CMAKE_COMMAND} -E copy_if_different
