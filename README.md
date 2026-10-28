@@ -6,6 +6,34 @@
 
 ## About GAP
 
+## Text-to-speech
+
+`GAP::GAP` exposes [Sherpa-ONNX](https://github.com/k2-fsa/sherpa-onnx)
+v1.13.8's C++ TTS API. Voice models are external assets, so applications can
+ship only the languages and voices they need.
+
+```cmake
+target_link_libraries(my_game PRIVATE GAP::GAP)
+```
+
+```cpp
+#include <sherpa-onnx/c-api/cxx-api.h>
+
+sherpa_onnx::cxx::OfflineTtsConfig config;
+config.model.vits.model = "voice/model.onnx";
+config.model.vits.tokens = "voice/tokens.txt";
+config.model.vits.data_dir = "voice/espeak-ng-data";
+
+auto tts = sherpa_onnx::cxx::OfflineTts::Create(config);
+auto audio = tts.Generate("Hello, world!");
+```
+
+Use a model package whose `tokens.txt` contains its phoneme set. Its
+`espeak-ng-data` directory supplies language rules and custom phonemes; the
+voice metadata selects the eSpeak language. For models that use a lexicon
+frontend instead, set `config.model.vits.lexicon` and leave `data_dir` empty.
+Sherpa-ONNX ignores `lexicon` when `data_dir` is set.
+
 
 ## WebAssembly Demo
 

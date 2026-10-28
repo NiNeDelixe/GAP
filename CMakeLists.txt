@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION 3.29)
 # Disable modules support, this is broken with clang-tidy at the moment
 cmake_policy(SET CMP0155 OLD) 
 
+if (NOT DEFINED CMAKE_VS_PLATFORM_NAME)
+  set(CMAKE_VS_PLATFORM_NAME x64)
+endif()
+
 # This template attempts to be "fetch_content"-able
 # so that it works well with tools like CPM or other
 # manual dependency management
@@ -39,8 +43,29 @@ else()
 endif()
 
 GAP_global_options()
+
+# sherpa-onnx force-sets BUILD_TESTING=OFF in the cache via its Eigen dependency,
+# so remember the user's choice and restore it once dependencies are set up
+set(GAP_SAVED_BUILD_TESTING ON)
+if(DEFINED BUILD_TESTING)
+  set(GAP_SAVED_BUILD_TESTING "${BUILD_TESTING}")
+endif()
+
+# sherpa-onnx v1.13.8's sources assume C++17 semantics (u8 string literals
+# stop converting to const char* under C++20), so scope the dependency
+# subtree to C++17 and restore the project's choice afterwards
+if(DEFINED CMAKE_CXX_STANDARD)
+  set(GAP_SAVED_CXX_STANDARD "${CMAKE_CXX_STANDARD}")
+endif()
+set(CMAKE_CXX_STANDARD 17)
+
 include(Dependencies.cmake)
 GAP_setup_dependencies()
+
+set(BUILD_TESTING "${GAP_SAVED_BUILD_TESTING}" CACHE BOOL "" FORCE)
+if(DEFINED GAP_SAVED_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD "${GAP_SAVED_CXX_STANDARD}")
+endif()
 
 GAP_local_options()
 
